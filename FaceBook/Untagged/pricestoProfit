@@ -1,0 +1,65 @@
+import java.util.*;
+
+public class Main {
+    private class Price {
+        int value;
+        boolean acceptable;
+        public Price(int value, boolean acceptable) {
+            this.value = value;
+            this.acceptable = acceptable;
+        }
+    }
+    public static void main(String[] args) {
+        Main test = new Main();
+        char[] order = new char[]{'a','c','b'};
+        String[] wordlist = new String[]{"a","aa","cb","bc"};
+        int[] nums = new int[]{1,2,7};
+        Interval[] cust = new Interval[3];
+        cust[0] = new Interval(8,10);
+        cust[1] = new Interval(6,8);
+        cust[2] = new Interval(12,14);
+        System.out.print(test.maxProfix(cust));
+    }
+    public int maxProfix(Interval[] customers) {
+        if (customers == null || customers.length == 0) {
+            return 0;
+        }
+        PriorityQueue<Price> timeline = new PriorityQueue<Price>(new Comparator<Price>() {
+            public int compare(Price p1, Price p2) {
+                if (p1.value == p2.value) {
+                     if (p1.acceptable) {
+                         return -1;
+                     }
+                     return 1;
+                }
+                return p1.value - p2.value;
+            }
+        });
+        for (int i = 0; i < customers.length; i++) {
+            timeline.offer(new Price(customers[i].start,true));
+            timeline.offer(new Price(customers[i].end,false));
+        }
+        int maxPro = -1;
+        int count = 0;
+        while (!timeline.isEmpty()) {
+            Price curt = timeline.poll();
+            int price = curt.value;
+            if (curt.acceptable) {
+                count ++;
+            }
+            else {
+                count --;
+            }
+            maxPro = Math.max(maxPro,count * price);
+        }
+        return maxPro;
+    }
+}
+class Interval {
+    int start;
+    int end;
+    public Interval(int start, int end) {
+        this.start = start;
+        this.end = end;
+    }
+}
