@@ -1,0 +1,42 @@
+public List<Interval> Intersection(List<Interval> interval1,List<Interval> interval2) {
+        List<Interval> result = new ArrayList<Interval>();
+        if (interval1 == null || interval2 == null || interval1.size() == 0 || interval2.size() == 0) {
+            return result;
+        }
+        Comparator<Interval> comp = new Comparator<Interval>() {
+            public int compare(Interval i1, Interval i2) {
+                if (i1.start == i2.start) {
+                    return i1.end - i2.end;
+                }
+                return i1.start - i2.start;
+            }
+        };
+        Collections.sort(interval1,comp);
+        Collections.sort(interval2,comp);
+        int i1pos = 0;
+        int i2pos = 0;
+        while (i1pos < interval1.size() && i2pos < interval2.size()) {
+            Interval i1curt = interval1.get(i1pos);
+            Interval i2curt = interval2.get(i2pos);
+            if (i1curt.start > i2curt.end) {
+                i2pos ++;
+            }
+            else if (i2curt.start > i1curt.end) {
+                i1pos ++;
+            }
+            else {
+                int start = Math.max(i1curt.start, i2curt.start);
+                int end = Math.min(i1curt.end, i2curt.end);
+                result.add(new Interval(start, end));
+                if (i1curt.end > i2curt.end) {
+                    i2pos++;
+                } else if (i2curt.end > i1curt.end) {
+                    i1pos++;
+                } else {
+                    i1pos++;
+                    i2pos++;
+                }
+            }
+        }
+        return result;
+    }
