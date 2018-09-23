@@ -1,0 +1,28 @@
+public int trappingWater(int[] nums) {
+        if (nums == null || nums.length <= 2) {
+            return 0;
+        }
+        int leftIndex = 0;
+        int leftHeight = 0;
+        int bottomHeight = 0;
+        Deque<Integer> container = new ArrayDeque<Integer>();
+        int totalwater = 0;
+        for (int  i = 0; i < nums.length; i++) {
+            if (nums[i] != -1) {
+                while (!container.isEmpty() && nums[container.peek()] < nums[i]) {
+                    int bottom = container.pop();
+                    if (!container.isEmpty()) {
+                        leftIndex = container.peek();
+                        leftHeight = nums[leftIndex];
+                        bottomHeight = nums[bottom];
+                        totalwater += (Math.min(leftHeight, nums[i]) - bottomHeight) * (i - leftIndex - 1);
+                    }
+                }
+                container.push(i);
+            }
+            else {
+                container.clear();
+            }
+        }
+        return totalwater;
+    }
