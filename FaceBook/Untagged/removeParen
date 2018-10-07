@@ -1,0 +1,30 @@
+public String removeParen(String s) {
+        if (s.length() == 0) {
+            return "";
+        }
+        char[] paren = new char[]{'(',')'};
+        StringBuilder sb = new StringBuilder(s);
+        int left = 0;
+        int right = 0;
+        for (int i = 0; i < sb.length(); i++) {
+            char curt = sb.charAt(i);
+            if (curt == paren[0]) left++;
+            if (curt == paren[1]) left--;
+            if (left < 0) {
+                sb.delete(i,i+1);
+                left++;
+                i--;
+            }
+        }
+        for (int i = sb.length() - 1; i >= 0; i--) {
+            char curt = sb.charAt(i);
+            if (curt == paren[1]) right++;
+            if (curt == paren[0]) right--;
+            if (right < 0) {
+                sb.delete(i,i+1);
+                right++;
+                i++;
+            }
+        }
+        return sb.toString();
+    }
