@@ -28,3 +28,32 @@ public String removeParen(String s) {
         }
         return sb.toString();
     }
+
+
+
+// a stack
+public String removeParen(String s) {
+    if (s.length() <= 1) {
+      return "";
+    }
+    Deque<Integer> stack = new ArrayDeque<>();
+    for (int i = 0; i < s.length(); i++) {
+      char curt = s.charAt(i);
+      if (curt == '(') {
+        stack.push(i);
+      }
+      else if (curt == ')'){
+        if (stack.isEmpty() || s.charAt(stack.peek()) == ')') {
+          stack.push(i);
+        }
+        else {
+          stack.pop();
+        }
+      }
+    }
+    StringBuilder sb = new StringBuilder(s);
+    while (!stack.isEmpty()) {
+      sb.deleteCharAt(stack.pop());
+    }
+    return sb.toString();
+  }
