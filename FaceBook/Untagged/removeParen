@@ -51,6 +51,7 @@ public String removeParen(String s) {
         }
       }
     }
+    //因为是从后往前删除，所以序号是不变的
     StringBuilder sb = new StringBuilder(s);
     while (!stack.isEmpty()) {
       sb.deleteCharAt(stack.pop());
