@@ -1,0 +1,5 @@
+if (target.prev == null) return head.next;
+if (target.next == null) target.prev.next = null; return head;
+if (target.next == target) return null;
+target.prev.next = target.next;
+target.next.prev = target.prev
