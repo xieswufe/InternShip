@@ -1,0 +1,21 @@
+public String compressNum(String s) {
+    if (s.length() == 0) return s;
+    char prev = '*';
+    int count = 0;
+    StringBuilder sb = new StringBuilder();
+    for (char num : s.toCharArray()) {
+      if (num != prev) {
+        if (prev != '*') {
+        sb.append(count);
+        sb.append(prev);
+          }
+        count = 1;
+        prev = num;
+      }
+      else {
+        count++;
+      }
+    }
+    sb.append(count);
+    sb.append(prev);
+    return sb
