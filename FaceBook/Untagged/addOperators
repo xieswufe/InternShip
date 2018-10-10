@@ -1,0 +1,38 @@
+public List<String> expression(String s) {
+    List<String> result = new ArrayList<>();
+    if (s.length() == 0) return result;
+    String[] equations = s.split("=");
+    String left = equations[0];
+    String right = equations[1];
+    Map<Integer,List<String>> val2eqa_left = new HashMap<>();
+    Map<Integer, List<String>> val2eqa_right = new HashMap<>();
+    dfs(left,0,0,"",val2eqa_left);
+    dfs(right,0,0,"",val2eqa_right);
+    for (int key : val2eqa_left.keySet()) {
+      if (!val2eqa_right.containsKey(key)) {
+        continue;
+      }
+      for (int i = 0; i < val2eqa_left.get(key).size(); i++) {
+        for (int j = 0; j < val2eqa_right.get(key).size(); j++) {
+          result.add(val2eqa_left.get(key).get(i) + "=" + val2eqa_right.get(key).get(j));
+        }
+      }
+    }
+    return result;
+  } 
+  private void dfs(String s, int startIndex, int val, String temp, Map<Integer,List<String>> val2eqa) {
+    if (startIndex == s.length()) {
+      if (!val2eqa.containsKey(val)) {
+        val2eqa.put(val,new ArrayList<>());
+      }
+      val2eqa.get(val).add(temp);
+      return;
+    }
+    for (int i = startIndex; i < s.length(); i++) {
+      if (s.charAt(startIndex) == '0' && i > startIndex) {
+        return;
+      }
+      String num = s.substring(startIndex,i+1);
+      dfs(s,i+1,val + Integer.parseInt(num), temp + '+' + num,val2eqa);
+      dfs(s,i+1,val - Integer.parseInt(num), temp + '-' + num,val2eqa);
+    }
