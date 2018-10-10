@@ -1,0 +1,23 @@
+
+TreeNode root;
+TreeNode prev;
+while (root != null) {
+if (root.left == null) {
+root = root.right;
+}
+else {
+TreeNode prevNode =  curt.left;
+while (prevNode.right != null && prevNode.right != curt) {
+prevNode = prevNode.right;
+}
+if (prevNode.right == curt) {
+prevNode.right = null;
+curt = curt.right;
+}
+else {
+prevNode.right = curt;
+curt = curt.left;
+}
+
+}
+}
