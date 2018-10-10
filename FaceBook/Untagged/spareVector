@@ -41,3 +41,67 @@ class Point {
     this.index = index;
     this.val = val;
   }
+  
+  
+  
+  
+  // binary search
+  ublic int dotVec(int[] v1, int[] v2) {
+    List<Point> l1 = preprocess(v1);
+    List<Point> l2 = preprocess(v2);
+    if (l1.size() == 0 || l2.size() == 0) {
+      return 0;
+    }
+    int res = 0;
+    int l1pos = 0;
+    int l2pos = 0;
+    while (l1pos < l1.size() && l2pos < l2.size()) {
+      Point l1curt = l1.get(l1pos);
+      Point l2curt = l2.get(l2pos);
+      if (l1curt.index == l2curt.index) {
+        res += l1curt.val * l2curt.val;
+      }
+      else if (l1curt.index > l2curt.index) {
+        int find = binarySearch(l2,l2pos,l2.size() - 1, l1curt.index);
+        if (find != -1) {
+          l2pos = find;
+          continue;
+        }
+    }
+      else {
+        int find1 = binarySearch(l1,l1pos,l1.size() - 1, l2curt.index);
+        if (find1 != -1) {
+          l1pos = find1;
+          continue;
+        }
+      }
+      l1pos ++;
+      l2pos ++;
+    }
+    return res;
+  }
+  public int binarySearch(List<Point> points, int start, int end, int target) {
+    if (start > end) {
+      return -1;
+    }
+    int mid;
+    while (start + 1 < end) {
+      mid = start + (end - start) / 2;
+      if (points.get(mid).index == target) {
+        return mid;
+      }
+      if (points.get(mid).index > target) {
+        end = mid;
+      }
+      else {
+        start = mid;
+      }
+    }
+    if (points.get(start).index == target) {
+      return start;
+    }
+    if (points.get(end).index == target) {
+      return end;
+    }
+    return -1;
+  }
