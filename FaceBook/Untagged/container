@@ -1,0 +1,15 @@
+public List<Integer> getlist(Container ct) {
+    Deque<Integer> stack = new ArrayDeque<>();
+    List<Integer> res = new ArrayList<>();
+    while (!ct.isEmpty()) {
+      int curt = ct.get();
+      if (!stack.isEmpty() && curt > stack.peek()) {
+        res.add(stack.pop());
+      }
+      stack.push(curt);
+    }
+    while (!stack.isEmpty()) {
+      res.add(stack.pop());
+    }
+    return res;
+  }
