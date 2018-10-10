@@ -1,0 +1,43 @@
+public int dotVec(int[] v1, int[] v2) {
+    List<Point> l1 = preprocess(v1);
+    List<Point> l2 = preprocess(v2);
+    if (l1.size() == 0 || l2.size() == 0) {
+      return 0;
+    }
+    int res = 0;
+    int l1pos = 0;
+    int l2pos = 0;
+    while (l1pos < l1.size() && l2pos < l2.size()) {
+      Point l1curt = l1.get(l1pos);
+      Point l2curt = l2.get(l2pos);
+      if (l1curt.index == l2curt.index) {
+        res += l1curt.val * l2curt.val;
+        l1pos ++;
+        l2pos ++;
+      }
+      else if (l1curt.index > l2curt.index) {
+        l2pos ++;
+    }
+      else {
+        l1pos ++;
+      }
+    }
+    return res;
+  }
+  public List<Point> preprocess(int[] vec) {
+    List<Point> result = new ArrayList<>();
+    for (int i = 0; i < vec.length; i++) {
+      if (vec[i] != 0) {
+        result.add(new Point(i,vec[i]));
+      } 
+    }
+    return result;
+  }
+  }
+class Point {
+  int index;
+  int val;
+  public Point(int index, int val) {
+    this.index = index;
+    this.val = val;
+  }
