@@ -48,11 +48,8 @@ public class Main {
             s1pos ++;
             s2pos ++;
         }
-        int s1toend = str1.length() - s1pos;
-        int s2toend = str2.length() - s2pos;
-        if (s1toend == s2toend) {
-            return 0;
-        }
-        return s1toend == 0 ? -1 : 1;
+        if (s1.length() == s2.length()) {
+          return 0;}
+         return s1.length() > s2.length()?1:-1;
     }
 }
