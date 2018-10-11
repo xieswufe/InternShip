@@ -1,0 +1,49 @@
+ private class ResultType {
+        TreeNode pq;
+        List<String> path;
+        public ResultType() {
+            path = new ArrayList<String>();
+        }
+    }
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+       if (root == null) return null;
+       ResultType res = helper(root,p,q);
+        for (String item : res.path) {
+            System.out.println(item);
+        }
+        return res.pq;
+    }
+    public ResultType helper(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null) {
+            return new ResultType();
+        }
+        ResultType res = new ResultType();
+        if (root == p || root == q) {
+            res.pq = root;
+            res.path.add("" + root.val);
+            return res;
+        }
+        ResultType left = helper(root.left,p,q);
+        ResultType right = helper(root.right,p,q);
+        for (String item : left.path) {
+                res.path.add(root.val + "->" + item);
+            }
+        for (String item : right.path) {
+                res.path.add(root.val + "->" + item);
+            }
+        if (left.pq != null && right.pq != null) {
+            res.path.clear();
+            res.path.add("" + root.val);
+            res.pq = root;
+            return res;
+        }
+        if (left.pq != null) {
+            res.pq = left.pq;
+            return res;
+        }
+        if (right.pq != null) {
+            res.pq = right.pq;
+            return res;
+        }
+        return new ResultType();
+    }
