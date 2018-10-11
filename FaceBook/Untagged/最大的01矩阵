@@ -1,0 +1,25 @@
+ int n = test.length;
+                int m = test[0].length;
+                int[][] dp = new int[n][m];
+                
+                for(int i = 0; i < n; i++) {
+                        for(int j = 0; j < m; j++) {
+                                dp[i][j] = 1;
+                        }. 牛人云集,一亩三分地
+                }
+                for(int i = 1; i < n; i++) {
+                        for(int j = 1; j < m; j++) {
+                                if(test[i][j] == 1) {
+                                        if(test[i - 1][j - 1] != 1 || test[i - 1][j] != 0 || test[i][j - 1] != 0) {
+                                                continue;
+                                        }
+                                        dp[i][j] = Math.min(Math.min(dp[i - 1][j], dp[i][j - 1]), dp[i - 1][j - 1]) + 1;
+                                }
+                                if(test[i][j] == 0) {
+                                        if(test[i - 1][j - 1] != 0 || test[i - 1][j] != 1 || test[i][j - 1] != 1) {
+                                                continue;. 1point3acres
+                                        }
+                                        dp[i][j] = Math.min(Math.min(dp[i - 1][j], dp[i][j - 1]), dp[i - 1][j - 1]) + 1;
+                                }. from: 1point3acres 
+                        }
+                }
