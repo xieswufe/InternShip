@@ -1,0 +1,12 @@
+double tax = 0;
+    for (double[] item : rate) {
+      if (salary > item[0]) {
+        tax += item[0] * item[1];
+        salary -= item[0];
+      }
+      else {
+        tax += item[1] * salary;
+        break;
+      }
+    }
+    return tax;
