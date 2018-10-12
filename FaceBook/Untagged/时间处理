@@ -1,0 +1,20 @@
+会议有可能开两，所以处理会议的时候如果发现后面一个比较小，给他加上2400
+
+
+int move = 1200;
+    if (time.charAt(time.length() - 1) == 'a') {
+      move = 0;
+    }
+    time = time.substring(0,time.length() - 1);
+    int hour = 0;
+    int min = 0;
+    if (time.indexOf(":") > 0) {
+      String[] timearr = time.split(":");
+      hour = Integer.parseInt(timearr[0]);
+      min = Integer.parseInt(timearr[1]);
+    }
+    else {
+      hour = Integer.parseInt(time);
+    }
+    hour = hour % 12;
+    return hour * 100 + min + move;
