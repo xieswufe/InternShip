@@ -1,0 +1,31 @@
+public boolean compare(String s1, String s2) {
+    int pos1 = 0;
+    int pos2 = 0;
+    int count = 0;
+    char cur1 = ' ';
+    char cur2 = ' ';
+    while (pos1 < s1.length() && pos2 < s2.length()) {
+         cur1 = s1.charAt(pos1);
+         cur2 = s2.charAt(pos2);
+
+      if (!Character.isDigit(cur2)) {
+        if (cur1 != cur2) return false;
+        pos1 ++;
+        pos2 ++;
+      }
+        else {
+          while (pos2 < s2.length() && Character.isDigit(s2.charAt(pos2))) {
+            count = 10 * count + s2.charAt(pos2) - '0';
+            pos2 ++;
+          }
+          count --;
+          while (count > 0) {
+            if (pos1 >= s1.length() || s1.charAt(pos1) != cur1) return false;
+            pos1 ++;
+            count--;
+          }
+        }
+      }
+    if (pos2 == s2.length() - 1 &&  s2.charAt(pos2) == '1' && cur1 == cur2) return true;
+    return s1.length() == pos1 && s2.length() == pos2;
+  }
