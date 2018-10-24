@@ -1,0 +1,24 @@
+All iso:
+ public boolean existIso(String[] words) {
+       Set<String> patterns = new HashSet<>();
+       patterns.add(generatePattern(words[0]));
+       for (int i = 1; i < words.length; i++) {
+           if (patterns.add(generatePattern(words[i])))  return false;
+       }
+       return true;
+    }
+    public String generatePattern(String word) {
+        if (word.length() == 0) return "";
+        Map<Character,Character> ch2ch = new HashMap<>();
+        char letter = 'a';
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < word.length(); i++) {
+            char curt =  word.charAt(i);
+            if (!ch2ch.containsKey(curt)) {
+                ch2ch.put(curt,letter);
+                letter ++;
+            }
+            sb.append(ch2ch.get(curt));
+        }
+        return sb.toString();
+    }
