@@ -1,5 +1,5 @@
 public class Main {
-
+    //要思考万一字符不在order里面怎么办
     public static void main(String[] args) {
         Main test = new Main();
         char[] order = new char[]{'a','c','b'};
