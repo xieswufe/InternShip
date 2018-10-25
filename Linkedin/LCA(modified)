@@ -1,0 +1,54 @@
+1. with parent(in fact, it is to find intersection of two lists)
+  //秀解法
+    public ParentTreeNode lowestCommonAncestorII(ParentTreeNode root, ParentTreeNode A, ParentTreeNode B) {
+        // write your code here
+        if (root == null) return null;
+        ParentTreeNode iteA = A, iteB = B;
+        while (iteA != iteB) {
+            iteA = iteA == null?B:iteA.parent;
+            iteB = iteB == null?A:iteB.parent;
+        }
+        return iteA;
+    }
+    // hashset
+     public ParentTreeNode lowestCommonAncestorII(ParentTreeNode root, ParentTreeNode A, ParentTreeNode B) {
+        // write your code here
+        if (root == null) return null;
+        Set<ParentTreeNode> hs = new HashSet<>();
+        while (A != null) {
+            hs.add(A);
+            A = A.parent;
+        }
+        while (B != null) {
+            if (hs.contains(B)) return B;
+            B = B.parent;
+        }
+        return null;
+    }
+2. LCA 不一定存在
+private class ResultType {
+        int count;
+        TreeNode node;
+        public ResultType(int count, TreeNode node) {
+            this.count = count;
+            this.node = node;
+        }
+    }
+    public TreeNode lowestCommonAncestor3(TreeNode root, TreeNode A, TreeNode B) {
+        // write your code here
+        if (root == null) return null;
+        return helper(root,A,B).node;
+    }
+    public ResultType helper(TreeNode root, TreeNode A, TreeNode B) {
+        if (root == null) return new ResultType(0,null);
+        int nodeCount = 0;
+        if (root == A) nodeCount++;
+        if (root == B) nodeCount++;
+        ResultType left = helper(root.left,A,B);
+        ResultType right = helper(root.right,A,B);
+        if (left.node != null) return left;
+        if (right.node != null) return right;
+        nodeCount += left.count + right.count;
+        if (nodeCount == 2) return new ResultType(2,root);
+        return new ResultType(nodeCount,null);
+    }
