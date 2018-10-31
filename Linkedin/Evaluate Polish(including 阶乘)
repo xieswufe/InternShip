@@ -1,0 +1,47 @@
+public int evalRPN(String[] tokens) {
+        if  (tokens.length == 0) return 0;
+        Deque<Integer> numbers = new ArrayDeque<>();
+        int num1,num2;
+        for (String item : tokens) {
+                switch (item) {
+                    case "+":
+                        checkSize(numbers);
+                        numbers.push(numbers.pop() + numbers.pop());
+                        break;
+                    case "-":
+                        checkSize(numbers);
+                        num1 = numbers.pop();
+                        num2 = numbers.pop();
+                        numbers.push(num2 - num1);
+                        break;
+                    case "*":
+                        checkSize(numbers);
+                        numbers.push(numbers.pop() * numbers.pop());
+                        break;
+                    case "/":
+                        checkSize(numbers);
+                        num1 = numbers.pop();
+                        num2 = numbers.pop();
+                        numbers.push(num2 / num1);
+                        break;
+                    case "!":
+                        if (numbers.size() < 1) 
+                            throw new IllegalArgumentException("The number of elements are not enough");
+                        num1 = numbers.pop();
+                        int prod = 1;
+                        while (num1 >= 1) {
+                            prod *= num1;
+                            num1 --;
+                        }
+                        numbers.push(prod);
+                        break;
+                    default:
+                        numbers.push(Integer.parseInt(item));
+                }
+        }
+        return numbers.peek();
+    }
+    public void checkSize(Deque<Integer> stack) {
+        if (stack.size() < 2) 
+            throw new IllegalArgumentException("The number of elements are not enough");
+    }
