@@ -1,0 +1,16 @@
+ public void printCombination(int n) {
+        if (n <= 1) System.out.println(n + "");
+        dfs(2,n,"");
+    }
+    public void dfs(int curtNum, int target, String temp) {
+        if (curtNum == 1) return;
+        if (temp.length() > 0) {
+            System.out.println(temp + "x" + target);
+        }
+        for (int i = curtNum; i <= Math.sqrt(target); i++) {
+            if (target % i != 0) continue;
+            if (temp.length() == 0) dfs(i,target / i, temp + i);
+            else dfs(i,target / i, temp + "x" + i);
+        }
+
+    }
