@@ -1,0 +1,51 @@
+import java.util.*;
+
+public class HelloWorld {
+	public static void main(String args[]) {
+		HelloWorld hw = new HelloWorld();
+        TreeNode root = new TreeNode(1);
+        TreeNode node1 = new TreeNode(2);
+        TreeNode node2 = new TreeNode(3);
+        TreeNode node3 = new TreeNode(4);
+        TreeNode node4 = new TreeNode(5);
+        TreeNode node5 = new TreeNode(5);
+        root.children.add(node1);
+        root.children.add(node2);
+        root.children.add(node3);
+        node3.children.add(node4);
+        node3.children.add(node5);
+        List<List<Integer>> res = hw.getAllLeafs(root);
+        for (List<Integer> li : res) {
+            for (int item : li) {
+                System.out.print(item + " ");
+            }
+            System.out.println();
+        } 
+	}
+    public List<List<Integer>> getAllLeafs(TreeNode root) {
+        List<List<Integer>> res = new ArrayList<>();
+        helper(root, res);
+        return res;
+    }
+    public int helper(TreeNode root, List<List<Integer>>) {
+        if (root == null) return -1;
+        int level = -1;
+        for (TreeNode item : root.children) {
+            level = Math.max(level, helper(item,res));
+        }
+        level += 1;
+        if (level >= res.size()) res.add(new ArrayList<>());
+        res.get(level).add(root.val);
+    }
+}
+
+class TreeNode {
+    List<TreeNode> children;
+    int val;
+
+    public TreeNode(int val) {
+        this.val = val;
+        children = new ArrayList<>();
+    }
+}
+
