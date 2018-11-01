@@ -1,0 +1,27 @@
+class Solution {
+    public int maxSubArray(int[] nums) {
+        int curtMax = 0;
+        int totalMax = Integer.MIN_VALUE;
+        int leftindex = 0;
+        int rightindex = 0;
+        int maxleft = -1;
+        int maxright = -1;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] > curtMax + nums[i]) {
+                leftindex = i;
+                curtMax = nums[i];
+            }
+            else {
+                rightindex = i;
+                curtMax = nums[i] + curtMax;
+            }
+            if (curtMax > totalMax) {
+                maxleft = leftindex;
+                maxright = rightindex;
+                totalMax = curtMax;
+            } 
+        }
+        System.out.println("left max" + maxleft + " right max" + maxright);
+        return totalMax;
+    }
+}
