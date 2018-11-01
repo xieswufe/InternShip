@@ -1,0 +1,36 @@
+    public void addInterval(Interval item) {
+        List<Interval> result = new ArrayList<>();
+        length = 0;
+        int pos = 0;
+        while (pos < intervals.size() && intervals.get(pos).end < item.start) {
+            Interval curt = intervals.get(pos++);
+            result.add(curt);
+            length += curt.end - curt.start + 1;
+        }
+        while (pos < intervals.size() && intervals.get(pos).end >= item.start && intervals.get(pos).start <= item.end) {
+            item.start = Math.min(item.start, intervals.get(pos).start);
+            item.end = Math.max(item.end, intervals.get(pos).end);
+            pos ++;
+        }
+        result.add(item);
+        length += item.end - item.start + 1;
+        while (pos < intervals.size()) {
+            Interval curt = intervals.get(pos++);
+            result.add(curt);
+            length += curt.end - curt.start + 1;
+        }
+        intervals = result;
+    }
+    public int countLength() {
+        return length;
+    }
+}
+
+class Interval {
+    int start;
+    int end;
+    public Interval(int start, int end) {
+        this.start = start;
+        this.end = end;
+    }
+}
