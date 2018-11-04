@@ -66,4 +66,37 @@ public int[] mergeArrays(int[] a, int[] b, int[] c) {
   }
   
   
+// merge k arrs by mergeSort
+  public List<Integer> mergeArrays(List<int[]> arrs) {
+     return mergeSort(arrs,0,arrs.size() - 1);
+  }
+  public List<Integer> mergeSort(List<int[]> arrs, int start, int end) {
+    List<Integer> res = new ArrayList<>();
+    if (start > end) return res;
+    if (start == end) {
+      for (int item : arrs.get(start))  res.add(item);
+      return res;
+    }
+    int mid = start + (end - start) / 2;
+    List<Integer> left = mergeSort(arrs,start,mid);
+    List<Integer> right = mergeSort(arrs,mid + 1,end);
+    res = merge(left,right);
+    return res;
+  }
+  
+  public List<Integer> merge(List<Integer> left, List<Integer> right) {
+    List<Integer> res = new ArrayList<>();
+    int posl = 0;
+    int posr = 0;
+    while (posl < left.size() || posr < right.size()) {
+      if (posl == left.size() || (posr < right.size() && right.get(posr) <= left.get(posl))) {
+        res.add(right.get(posr++));
+      }
+      else {
+        res.add(left.get(posl++));
+      }
+    } 
+    return res;
+  }
+  
   
