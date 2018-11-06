@@ -40,3 +40,29 @@ public List<Interval> Intersection(List<Interval> interval1,List<Interval> inter
         }
         return result;
     }
+    
+   // merge interval lists
+    public List<Interval> mergeList(List<Interval> l1, List<Interval> l2) {
+    int pos1 = 0;
+    int pos2 = 0;
+    List<Interval> result = new ArrayList<>();
+    Collections.sort(l1,(a,b) -> a.start - b.start);
+    Collections.sort(l2,(a,b) -> a.start - b.start);
+    while (pos1 < l1.size() || pos2 < l2.size()) {
+      if (pos1 == l1.size() || pos2 < l2.size() && l2.get(pos).start <= l1.get(pos1).start) {
+        merge(result,l2.get(pos2++));
+      }
+      else {
+        merge(result,l1.get(pos1++));
+      }
+    }
+    return result;
+  }
+  public void merge(List<Interval> res, Interval curt) {
+    if (res.isEmpty() || res.get(res.size() - 1).end < curt.start) {
+      res.add(curt);
+    }
+    else {
+      res.get(res.size() - 1).end = Math.max(res.get(res.size() - 1).end,curt.end);
+    }
+  }
