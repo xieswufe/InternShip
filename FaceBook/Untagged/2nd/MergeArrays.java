@@ -99,4 +99,23 @@ public int[] mergeArrays(int[] a, int[] b, int[] c) {
     return res;
   }
   
+// iterator
+class MergeSortedIterator {
+  PriorityQueue<ListNode> minheap;
+  public MergeSortedIterator(ListNode[] lists) {
+    minheap = new PriorityQueue<>((a,b) -> a.val - b.val);
+    for (ListNode item : lists) {
+      minheap.offer(item);
+    }
+  }
+  public boolean hasNext() {
+    return !minheap.isEmpty();
+  }
+  public int next() {
+    ListNode curt = minheap.poll();
+    if (curt.next != null) {
+      minheap.offer(curt.next);
+    }
+    return curt.val;
+  }
   
