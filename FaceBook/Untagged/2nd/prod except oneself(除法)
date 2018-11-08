@@ -1,0 +1,24 @@
+public int[] productExceptSelf(int[] nums) {
+        if (nums.length == 0) return new int[0];
+        int zeroCount = 0;
+        int zeroIndex = -1;
+        int[] res = new int[nums.length];
+        int prod = 1;
+        for (int i = 0 ; i < nums.length; i++) {
+            if (nums[i] != 0) prod *= nums[i];
+            else {
+                zeroCount ++;
+                zeroIndex = i;
+            }
+        }
+        if (zeroCount > 1) return res;
+        else if (zeroCount == 1) {
+            res[zeroIndex] = prod;
+        }
+        else {
+            for (int i = 0; i < nums.length; i++) {
+                res[i] = prod / nums[i];
+            }
+        }
+        return res;
+    }
