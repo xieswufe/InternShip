@@ -1,0 +1,35 @@
+public class BSTIterator {
+    Deque<TreeNode> stack;
+    public BSTIterator(TreeNode root) {
+        stack = new ArrayDeque<>();
+        findNextLeaf(root);
+    }
+
+    /** @return whether we have a next smallest number */
+    public boolean hasNext() {
+        return !stack.isEmpty();
+    }
+    
+    public void findNextLeaf(TreeNode node) {
+        while (node != null) {
+            stack.push(node);
+            if (node.left != null) {
+                node = node.left;
+            }
+            else {
+                node = node.right;
+            }
+        }
+    }
+
+    /** @return the next smallest number */
+    public int next() {
+        TreeNode curt = stack.pop();
+        if (!stack.isEmpty()) {
+            if (stack.peek().left == curt) {
+                findNextLeaf(stack.peek().right);
+            } 
+        }
+        return curt.val;
+    }
+}
