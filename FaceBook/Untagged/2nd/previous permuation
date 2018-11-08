@@ -1,0 +1,35 @@
+public class Solution {
+    /*
+     * @param nums: A list of integers
+     * @return: A list of integers that's previous permuation
+     */
+    public List<Integer> previousPermuation(List<Integer> nums) {
+        // write your code here
+        if (nums.size() == 0) return nums;
+        int pos = nums.size() - 1;
+        while (pos >= 1 && nums.get(pos) >= nums.get(pos - 1)) {
+            pos --;
+        }
+        if (pos == 0) {
+        Collections.sort(nums,Collections.reverseOrder());
+        return nums;
+        }
+        int change = pos - 1;
+        int end = nums.size() - 1;
+        while (pos < end) {
+            change(nums,pos++,end--);
+        }
+        pos = change + 1;
+        while (pos < nums.size() && nums.get(pos) >= nums.get(change)) {
+            pos ++;
+        }
+        change(nums,change,pos);
+        return nums;
+    }
+    public void change(List<Integer> nums, int left, int right) {
+        int temp = nums.get(left);
+        nums.set(left,nums.get(right));
+        nums.set(right,temp);
+    }
+    
+}
