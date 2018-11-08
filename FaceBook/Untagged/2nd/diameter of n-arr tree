@@ -1,0 +1,19 @@
+   public ResultType helper(TreeNode root) {
+  if (root == null) return new ResultType(0,0);
+  int firstDep = 0, secondDep = 0;
+  int maxdep = 0;
+  for (TreeNode child : root.children) {
+    ResultType res = helper(child);
+    maxdep = Math.max(maxdep,res.maxlength);
+    if (res.depth > firstDep) {
+       secondDep = firstDep;
+      firstDep = res.depth;
+    }
+    else if (res.depth > secondDep) {
+      secondDep = res.depth;
+    }
+  }
+  maxdep = Math.max(maxdep,firstDep + secondDep);
+  return new ResultType(maxdep,firstDep + 1);
+}
+  
