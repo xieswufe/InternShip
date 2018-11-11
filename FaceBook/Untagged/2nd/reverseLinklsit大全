@@ -1,0 +1,79 @@
+
+// space O(n) Time O(n) itrative解
+public void reverseOuput(ListNode head) {
+    if (head == null) return;
+    ListNode prev = null;
+    while (head != null) {
+      ListNode nex = head.next;
+      head.next = prev;
+      prev = head;
+      head = nex;
+    }
+    while (prev != null) {
+      System.out.println(prev.val);
+      prev = prev.next;
+    }
+  }
+  
+  // space O(n) Time O(n) recursive
+  public void reverseOuputrecur(ListNode head) {
+    ListNode newHead = reverse(head);
+    while (newHead != null) {
+      System.out.println(newHead.val);
+      newHead = newHead.next;
+    }
+  }
+  public ListNode reverse(ListNode head) {
+    if (head.next == null) {
+      return head;
+    }
+    ListNode nextNode = head.next;
+    ListNode prev = reverse(nextNode);
+    nextNode.next = head;
+    head.next = null;
+    return prev;
+  }
+  
+  
+   // space O(n) Time O(n) stack解
+  public void reverseStack(ListNode head) {
+    Deque<ListNode> stack = new ArrayDeque<>();
+    while (head != null) {
+      stack.push(head);
+      head = head.next;
+    }
+    while (!stack.isEmpty()) {
+      System.out.println(stack.pop().val);
+    }
+  }
+  
+  // space O(1) time O(n^2) 解
+  public void reverseSpaceo1(ListNode head) {
+    if (head == null) return;
+    ListNode last = null;
+    ListNode ite = head;
+    while (ite != last) {
+    while (ite.next != last) {
+      ite = ite.next;
+      }
+      System.out.println(ite.val);
+      last = ite;
+      ite = head;
+    }
+  }
+  
+  // space o(logn) time o(nlogn)解
+  public void reverseMid(ListNode head, int length) {
+    if (length == 0) return;
+    if (length == 1) {
+      System.out.println(head.val);
+      return;
+    }
+    int mid = length / 2;
+    ListNode midNode = head;
+    for (int i = 1; i < mid; i++) {
+      midNode = midNode.next;
+    }
+    reverseMid(midNode.next,(length + 1) / 2);
+    reverseMid(head,mid);
+  }
