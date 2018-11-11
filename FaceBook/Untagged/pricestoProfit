@@ -45,12 +45,12 @@ public class Main {
             Price curt = timeline.poll();
             int price = curt.value;
             if (curt.acceptable) {
-                count ++;
+                maxPro = Math.max(maxPro,++count * price);
             }
             else {
-                count --;
+                maxPro = Math.max(maxPro,count-- * price);
             }
-            maxPro = Math.max(maxPro,count * price);
+            
         }
         return maxPro;
     }
