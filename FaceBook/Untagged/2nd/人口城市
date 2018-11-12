@@ -1,0 +1,37 @@
+
+// Time Complexity: O(log(citynum)) Space Complexity: O(citynum)
+public String getCity(List<Pair> cities) {
+    int num = 0;
+    List<String> cityName = new ArrayList<>();
+    List<int[]> peopleNum = new ArrayList<>();
+    
+    for (Pair item : cities) {
+      cityName.add(item.city);
+      peopleNum.add(new int[]{num,num + item.people});
+      num += item.people;
+      
+    }
+    Random rand = new Random();
+    int randnum = rand.nextInt(num + 1);
+    /* for (int i = 0; i < peopleNum.size(); i++) {
+      int[] curt = peopleNum.get(i);
+      if (randnum >= curt[0] && randnum < curt[1]) return cityName.get(i);
+    }
+    */
+    System.out.println(randnum);
+    int idx = binarySearch(peopleNum,randnum);
+    return cityName.get(idx);
+  }
+  public int binarySearch(List<int[]> peopleNum, int target) {
+    int start = 0;
+    int end = peopleNum.size() - 1;
+    int mid;
+    while (start + 1 < end) {
+      mid = start + (end - start) / 2;
+      if (target >= peopleNum.get(mid)[0] && target < peopleNum.get(mid)[1]) return mid;
+      if (target >= peopleNum.get(mid)[1]) start = mid;
+      else end = mid; 
+    }
+    if (target >= peopleNum.get(start)[0] && target < peopleNum.get(start)[1]) return start;
+    return end;
+  }
