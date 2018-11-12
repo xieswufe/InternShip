@@ -1,0 +1,6 @@
+public static DoublelyNode removeDuplicate(DoublelyNode tail) {
+   Set<Integer> set = new HashSet<>();
+   DoublelyNode dummy = 
+
+
+}
