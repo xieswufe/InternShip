@@ -1,3 +1,5 @@
+
+// Intervals求交集
 public List<Interval> Intersection(List<Interval> interval1,List<Interval> interval2) {
         List<Interval> result = new ArrayList<Interval>();
         if (interval1 == null || interval2 == null || interval1.size() == 0 || interval2.size() == 0) {
@@ -41,6 +43,73 @@ public List<Interval> Intersection(List<Interval> interval1,List<Interval> inter
         return result;
     }
     
+    // merge interval (单一list) 正常解法
+    public List<Interval> merge(List<Interval> intervals) {
+        List<Interval> result = new ArrayList<Interval>();
+        if (intervals == null || intervals.size() == 0) {
+            return result;
+        }
+        Comparator<Interval> comp = new Comparator<Interval>() {
+        public int compare(Interval i1, Interval i2) {
+            if (i1.start == i2.start) {
+                return i1.end - i2.end;
+            }
+            return i1.start - i2.start;
+        }
+        };
+        Collections.sort(intervals,comp);
+        int pos = 0;
+        int res_pos = -1;
+        while (pos < intervals.size()) {
+            Interval curt = intervals.get(pos);
+            if (res_pos == -1 || curt.start > result.get(res_pos).end) {
+                result.add(curt);
+                res_pos ++;
+            }
+            else {
+                result.get(res_pos).end = Math.max(result.get(res_pos).end,curt.end);
+            }
+            pos ++;
+        }
+        return result;
+    } 
+    
+   // merge interval(单一list) inplace 解法
+   public List<Interval> merge(List<Interval> intervals) {
+        if (intervals.size() < 1) return intervals;
+        Comparator<Interval> cmp = new Comparator<Interval>(){
+            public int compare(Interval i1, Interval i2) {
+                if (i1.start == i2.start) return i1.end - i2.end;
+                return i1.start - i2.start;
+            }
+        };
+        Collections.sort(intervals,cmp);
+        int slow = 0;
+        int fast = 1;
+        while (fast < intervals.size()) {
+            Interval curt = intervals.get(fast);
+            Interval prev = intervals.get(slow);
+            if (curt.start <= prev.end) {
+                prev.start = Math.min(curt.start,prev.start);
+                prev.end = Math.max(curt.end,prev.end);
+            }
+            else {
+                slow ++;
+                intervals.get(slow).start = curt.start;
+                intervals.get(slow).end = curt.end;
+            }
+            fast ++;
+        }
+        int poi = intervals.size() - 1;
+        while (poi > slow) {
+            intervals.remove(poi--);
+        }
+        return intervals;
+    }
+    
+    
+    
+   
    // merge interval lists
     public List<Interval> mergeList(List<Interval> l1, List<Interval> l2) {
     int pos1 = 0;
