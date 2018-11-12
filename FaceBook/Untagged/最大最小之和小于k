@@ -1,3 +1,5 @@
+//时间复杂度 o(n^2)
+
 public int subset(int[] nums, int target) {
   if (nums.length == 0) return 0;
   Arrays.sort(nums);
