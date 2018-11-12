@@ -1,0 +1,26 @@
+
+
+//given list [[1,2],[2,1],[1,4],[1,0]]，k = 3   two sum list找两个item相同
+public int[] twoSum(int[][] pairs, int k) {
+    Map<Integer,Set<Integer>> num2num = new HashMap<>();
+    for (int[] pair : pairs) {
+      if (!num2num.containsKey(pair[0])) num2num.put(pair[0],new HashSet<>());
+      num2num.get(pair[0]).add(pair[1]);
+    }
+    int[] res = new int[4];
+    for (Map.Entry<Integer, Set<Integer>> item : num2num.entrySet()) {
+      if (num2num.containsKey(k - item.getKey())) {
+        Set<Integer> left = item.getValue();
+        Set<Integer> right = num2num.get(k - item.getKey());
+        for (int leftval : left) {
+          if (right.contains(k - leftval)) {
+            res[0] = item.getKey();
+            res[1] = k - item.getKey();
+            res[2] = leftval;
+            res[3] = k - leftval;
+          }
+        }
+      }
+    }
+    return res;
+  }
