@@ -28,15 +28,6 @@ public class Main {
     }
 
     private int compare(String str1, String str2, Map<Character,Integer> ch2order) {
-      if (str1 == null || str2 == null) {
-            if (str1 == null && str2 == null) {
-                return 0;
-            }
-            else if (str1 == null) {
-                return -1;
-            }
-            return 1;
-        }
         int s1pos = 0;
         int s2pos = 0;
         while (s1pos < str1.length() && s2pos < str2.length()) {
