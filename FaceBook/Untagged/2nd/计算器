@@ -1,0 +1,22 @@
+
+
+// 简化版 只有+,-
+public int simplifiedCal(String s) {
+    int res = 0;
+    int num = 0;
+    char prev = '+';
+    for (int i = 0; i < s.length(); i++) {
+      char curt = s.charAt(i);
+      if (Character.isDigit(curt)) {
+        num = num * 10 + curt - '0';
+      }
+      if (i == s.length() - 1 || !Character.isDigit(curt)) {
+        res += prev == '-'? -num : num;
+        prev = curt;
+        num = 0;
+      }
+    }
+    return res;
+  }
+  
+ // 
