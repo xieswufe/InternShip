@@ -1,0 +1,12 @@
+public boolean palinBit(int num) {
+     if (num % 2 == 0) return false;
+     int rev = 0;
+     int cur = num;
+     while (cur != 0) {
+       rev = (rev << 1) + (cur & 1);
+       cur = cur >> 1;
+     }
+     System.out.println(rev);
+      System.out.println(num);
+     return num == rev;
+   }
