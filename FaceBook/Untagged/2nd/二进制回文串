@@ -1,5 +1,5 @@
 public boolean palinBit(int num) {
-     if (num % 2 == 0) return false;
+     if (num < 0 || num % 2 == 0) return false;
      int rev = 0;
      int cur = num;
      while (cur != 0) {
