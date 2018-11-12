@@ -107,11 +107,17 @@ public ResultType print(TreeNode root, TreeNode p, TreeNode q) {
       }
       if (left.nodeCount == 2) return left;
       if (right.nodeCount == 2) return right;
-      if (left.nodeCount == 1) {
-          nodeCount += left.nodeCount;
+      if (left.nodeCount == 1 && right.nodeCount == 1) {
+          nodeCount = 2;
+          Collections.reverse(left.path);
           res.addAll(0,left.path);
+          res.addAll(right.path);
       }
-      if (right.nodeCount == 1) {
+      else if (left.nodeCount == 1) {
+          nodeCount += left.nodeCount;
+          res.addAll(left.path);
+      }
+      else if (right.nodeCount == 1) {
           nodeCount += right.nodeCount;
           res.addAll(right.path);
       }
