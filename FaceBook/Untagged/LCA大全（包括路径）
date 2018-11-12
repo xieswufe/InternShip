@@ -86,53 +86,36 @@ private class ResultType {
 
 
 
-// 打印LCA路径
+// 打印LCA之间的路径
 private class ResultType {
-        TreeNode pq;
-        List<String> path;
-        public ResultType() {
-            path = new ArrayList<String>();
-        }
-    }
-    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-       if (root == null) return null;
-       ResultType res = helper(root,p,q);
-        for (String item : res.path) {
-            System.out.println(item);
-        }
-        return res.pq;
-    }
-    public ResultType helper(TreeNode root, TreeNode p, TreeNode q) {
-        if (root == null) {
-            return new ResultType();
-        }
-        ResultType res = new ResultType();
-        if (root == p || root == q) {
-            res.pq = root;
-            res.path.add("" + root.val);
-            return res;
-        }
-        ResultType left = helper(root.left,p,q);
-        ResultType right = helper(root.right,p,q);
-        for (String item : left.path) {
-                res.path.add(root.val + "->" + item);
-            }
-        for (String item : right.path) {
-                res.path.add(root.val + "->" + item);
-            }
-        if (left.pq != null && right.pq != null) {
-            res.path.clear();
-            res.path.add("" + root.val);
-            res.pq = root;
-            return res;
-        }
-        if (left.pq != null) {
-            res.pq = left.pq;
-            return res;
-        }
-        if (right.pq != null) {
-            res.pq = right.pq;
-            return res;
-        }
-        return new ResultType();
-    }
+         int nodeCount;
+         List<Integer> path;
+         public ResultType(int count) {
+             nodeCount = count;
+             path = new ArrayList<>();
+         }
+     }
+public ResultType print(TreeNode root, TreeNode p, TreeNode q) {
+      if (root == null) return new ResultType(0);
+      List<Integer> res = new ArrayList<>();
+      ResultType left = print(root.left, p, q);
+      ResultType right = print(root.right,p,q);
+      int nodeCount = 0;
+      if (root == p || root == q || left.nodeCount > 0 || right.nodeCount > 0) {
+          res.add(root.val);
+          if (root == p || root == q) nodeCount ++;
+      }
+      if (left.nodeCount == 2) return left;
+      if (right.nodeCount == 2) return right;
+      if (left.nodeCount == 1) {
+          nodeCount += left.nodeCount;
+          res.addAll(0,left.path);
+      }
+      if (right.nodeCount == 1) {
+          nodeCount += right.nodeCount;
+          res.addAll(right.path);
+      }
+      ResultType result = new ResultType(nodeCount);
+      result.path = res;
+      return result;
+  }
