@@ -1,0 +1,108 @@
+ // 让我们自己安排任务
+ 
+ // 标准解法： time complexity o(nlog(task(kind))) space o(n)
+ public int leastInterval(char[] tasks, int n) {
+        if (tasks.length == 0) return 0;
+        Map<Character, Integer> ch2fre = new HashMap<>();
+        for (int i = 0; i < tasks.length; i++) {
+            ch2fre.put(tasks[i], ch2fre.getOrDefault(tasks[i], 0) + 1);
+        }
+        PriorityQueue<Integer> maxheap = new PriorityQueue<>((a,b) -> b-a);
+        for (Map.Entry<Character,Integer> item : ch2fre.entrySet()) {
+            maxheap.offer(item.getValue());
+        }
+        Map<Integer,Integer> time2fre = new HashMap<>();
+        int time = 0;
+        while (!maxheap.isEmpty() || !time2fre.isEmpty()) {
+            time ++;
+            if (time2fre.containsKey(time)) {
+                maxheap.offer(time2fre.get(time));
+                time2fre.remove(time);
+            }
+            if (!maxheap.isEmpty()) {
+                int curt = maxheap.poll();
+                if (curt > 1) {
+                    time2fre.put(time + n + 1, curt - 1);
+                }
+            }
+        }
+        return time;
+    }
+ 
+ // 数学方法 time complexity o(n) space o(1) 
+ public int leastInterval(char[] tasks, int n) {
+        if (n == 0) {
+            return tasks.length;
+        }
+        int[] taskscount = new int[26];
+        int maxCount = 0;
+        int max = -1;
+        for (int i = 0; i < tasks.length; i++) {
+            int pos = tasks[i] - 'A';
+            taskscount[pos] += 1;
+            if (taskscount[pos] > max) {
+                maxCount = 1;
+                max = taskscount[pos];
+            }
+            else if (taskscount[pos] == max) {
+                maxCount ++;
+            }
+        }
+        int parts = max - 1;
+        int slots = parts * (n - maxCount + 1);
+        int lefttasks = tasks.length - maxCount * max;
+        int idles = slots - lefttasks > 0?(slots - lefttasks) : 0;
+        return tasks.length + idles;
+    }
+  
+ 
+ // 安排好了任务让求时间
+ 
+ // task 少， 时间间隔长， 用hashmap
+ public int countTime(String s, int cooldown) {
+        if (s.length() <= 1) {
+            return s.length();
+        }
+        int time = 0;
+        int pos = 0;
+        Map<Character,Integer> ch2index = new HashMap<>();
+        while (pos < s.length()) {
+            char curt = s.charAt(pos);
+            if (ch2index.containsKey(curt)) {
+                time = Math.max(time+1, ch2index.get(curt)  + cooldown + 1);
+            }
+            else {
+                time ++;
+            }
+            ch2index.put(curt,time);
+            pos ++;
+
+        }
+        return time;
+        }
+
+
+// task多， 间隔时间短  用queue
+public int task(String s, int cooldown) {
+    int curtTime = 0;
+    Queue<Character> coolTask = new LinkedList<>();
+    Map<Character,Integer> ch2time = new HashMap<>();
+    for (int i = 0; i < s.length(); i++) {
+      curtTime ++;
+      if (!coolTask.isEmpty() && ch2time.get(coolTask.peek()) == curtTime) {
+        ch2time.remove(coolTask.peek());
+        coolTask.poll();
+      }
+      char curt = s.charAt(i);
+      if (coolTask.contains(curt)) {
+        while (coolTask.peek() != curt) {
+          ch2time.remove(coolTask.poll());
+        }
+        curtTime = ch2time.get(curt);
+        coolTask.poll();
+      }
+      coolTask.offer(curt);
+      ch2time.put(curt,curtTime + cooldown + 1);
+    }
+    return curtTime;
+  }
