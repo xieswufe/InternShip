@@ -1,6 +1,20 @@
-public static DoublelyNode removeDuplicate(DoublelyNode tail) {
+public  DoublelyNode removeDuplicate(DoublelyNode tail) {
    Set<Integer> set = new HashSet<>();
-   DoublelyNode dummy = 
-
-
+   DoublelyNode dummy = new DoublelyNode(0);
+    dummy.prev = tail;
+    tail.next = dummy;
+    DoublelyNode curt = tail;
+    while (curt != null) {
+      if (!set.contains(curt.val)) {
+        set.add(curt.val);
+      }
+      else {
+        if (curt.prev != null)
+           curt.prev.next = curt.next;
+        if (curt.next != null)
+            curt.next.prev = curt.prev;
+      }
+      curt = curt.prev;
+    }
+    return dummy.prev;
 }
