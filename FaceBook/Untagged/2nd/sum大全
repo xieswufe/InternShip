@@ -80,5 +80,83 @@ public int[] twoSum(int[][] pairs, int k) {
     
     
     // 4sum
-    // unsort
- 
+    // unsort time complexity O(k * n^2) (best n^2, worst o^3) 
+ private class Pair {
+         int l;
+        int r;
+        public Pair(int l, int r) {
+            this.l = l;
+            this.r = r;
+        }
+    }
+    public List<List<Integer>> fourSum(int[] nums, int target) {
+        Set<List<Integer>> result = new HashSet<>();
+        Map<Integer,List<Pair>> val2index = new HashMap<>();
+        if (nums == null || nums.length == 0) {
+            return new ArrayList<>(result);
+        }
+        for (int i = 0; i < nums.length; i++) {
+            for (int j = i + 1; j < nums.length; j++) {
+                if (val2index.containsKey(target - nums[i] - nums[j])) {
+                    List<Pair> index = val2index.get(target - nums[i] - nums[j]);
+                    for (Pair item : index) {
+                        if (item.r >= i) {
+                            continue;
+                        }
+                        List<Integer> temp = Arrays.asList(nums[item.l],nums[item.r],nums[i],nums[j]);
+                        Collections.sort(temp);
+                        result.add(temp);
+                    }
+                }
+                if (!val2index.containsKey(nums[i] + nums[j])) {
+                    val2index.put(nums[i] + nums[j], new ArrayList<Pair>());
+                }
+                val2index.get(nums[i]+nums[j]).add(new Pair(i,j));
+            }
+        }
+        return new ArrayList<>(result);
+    }
+    
+    // sort : Time : O(n^3)
+    public List<List<Integer>> fourSum(int[] nums, int target) {
+        List<List<Integer>> results = new ArrayList<>();
+        // check corner cases
+        if (nums == null || nums.length == 0) {
+            return results;
+        }
+        Arrays.sort(nums);
+        int curtSum;
+        for (int i = 0; i < nums.length; i++) {
+            if (i > 0 && nums[i] == nums[i-1]) {
+                continue;
+            }
+            for (int j = i + 1; j < nums.length; j++) {
+                if ((j != i + 1) && nums[j] == nums[j-1]) {
+                    continue;
+                }
+                int left = j + 1;
+                int right = nums.length - 1;
+                while (left < right) {
+                    curtSum = nums[i] + nums[j] + nums[left] + nums[right];
+                    if (curtSum == target) {
+                        results.add(Arrays.asList(nums[i],nums[j],nums[left],nums[right]));
+                        while (left < right && nums[left] == nums[left + 1]) {
+                            left ++;
+                        }
+                        while (left < right && nums[right] == nums[right - 1]) {
+                            right --;
+                        }
+                        left ++;
+                    }
+                    else if (curtSum > target) {
+                        right --;
+                    }
+                    else {
+                        left ++;
+                    }
+                       
+                }
+            }
+        }
+        return results;
+    }
