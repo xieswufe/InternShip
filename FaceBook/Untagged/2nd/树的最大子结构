@@ -1,0 +1,40 @@
+
+// 求最大子树
+public ResultType helper(TreeNode root) {
+        if (root == null) return new ResultType(0,Integer.MIN_VALUE);
+        ResultType left = helper(root.left);
+        ResultType right = helper(root.right);
+        int curtSum = left.subtree + right.subtree + root.val;
+        return new ResultType(Math.max(curtSum,Math.max(left.maxSum,right.maxSum)), curtSum);
+    }
+  private class ResultType{
+        int maxSum;
+        int subtree;
+        public ResultType(int maxSum, int subtree) {
+            this.maxSum = maxSum;
+            this.subtree = subtree;
+        }
+    }
+    
+  // 求最大最大path
+  private class ResultType{
+        int maxSum;
+        int pathSum;
+        public ResultType(int maxSum, int pathSum) {
+            this.maxSum = maxSum;
+            this.pathSum = pathSum;
+        }
+    }
+    public int maxPathSum(TreeNode root) {
+        return helper(root).maxSum;
+    }
+    public ResultType helper(TreeNode root) {
+        if (root == null) return new ResultType(Integer.MIN_VALUE,0);
+        ResultType left = helper(root.left);
+        ResultType right = helper(root.right);
+        int root2node = Math.max(0, Math.max(left.pathSum,right.pathSum)) + root.val;
+        int maxSum = root.val;
+        maxSum = Math.max(maxSum, Math.max(left.maxSum, right.maxSum));
+        maxSum = Math.max(maxSum, Math.max(root2node, left.pathSum + root.val + right.pathSum));
+        return new ResultType(maxSum,root2node);
+    }
