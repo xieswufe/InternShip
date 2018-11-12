@@ -1,0 +1,211 @@
+///////////////////////////////////////////////////////////// Traverse
+//////////////////////////////////////////////////////////// postorder
+public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> result = new ArrayList<>();
+        if (root == null) return result;
+        TreeNode prev = null;
+        TreeNode curt = null;
+        Deque<TreeNode> stack = new ArrayDeque<>();
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            curt = stack.peek();
+            if (prev == null || prev.left == curt || prev.right == curt) { // can traverse down
+               if (curt.left != null) {
+                   stack.push(curt.left);
+               }
+                else if (curt.right != null) {
+                    stack.push(curt.right);
+                }
+            }
+            else if (curt.left == prev) {  // bottom up from left side
+                if (curt.right != null) stack.push(curt.right);
+            }
+            else {
+                result.add(stack.pop().val); // bottom up from right side
+            }
+            prev = curt;
+        }
+        return result;
+    }
+    
+ ////////////////////////////////////// inorder
+ public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> result = new ArrayList<Integer>();
+        if (root == null) {
+            return result;
+        }
+        Stack<TreeNode> inorder = new Stack<TreeNode>();
+         while (root != null) {
+                inorder.push(root);
+                root = root.left;
+            }
+        while (!inorder.isEmpty()) {
+            TreeNode curt = inorder.peek();
+            result.add(curt.val);
+            if (curt.right != null) {
+                curt = curt.right;
+                while (curt != null) {
+                    inorder.push(curt);
+                    curt = curt.left;
+                }
+            }
+            else {
+                curt = inorder.pop();
+                while (!inorder.isEmpty() && inorder.peek().right == curt) {
+                    curt = inorder.pop();
+                }
+            }
+        }
+        return result;
+    }
+    
+ ///////////////////////////////////////////////////////////////// preorder_
+ public List<Integer> preorderTraversal(TreeNode root) {
+        List<Integer> result = new ArrayList<>();
+        if (root == null) {
+            return result;
+        }
+        Deque<TreeNode> stack = new ArrayDeque<>();
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            TreeNode curt = stack.pop();
+            result.add(curt.val);
+            if (curt.right != null) stack.push(curt.right);
+            if (curt.left != null) stack.push(curt.left);
+        }
+        return result;
+    }
+
+
+
+////////////////////////////////Iterator!!!!!
+////////////////postorder
+public class BSTIterator {
+    Deque<TreeNode> stack;
+    public BSTIterator(TreeNode root) {
+        stack = new ArrayDeque<>();
+        findNextLeaf(root);
+    }
+
+    /** @return whether we have a next smallest number */
+    public boolean hasNext() {
+        return !stack.isEmpty();
+    }
+    
+    public void findNextLeaf(TreeNode node) {
+        while (node != null) {
+            stack.push(node);
+            if (node.left != null) {
+                node = node.left;
+            }
+            else {
+                node = node.right;
+            }
+        }
+    }
+
+    /** @return the next smallest number */
+    public int next() {
+        TreeNode curt = stack.pop();
+        if (!stack.isEmpty()) {
+            if (stack.peek().left == curt) {
+                findNextLeaf(stack.peek().right);
+            } 
+        }
+        return curt.val;
+    }
+}
+
+//////////////////// inorder   Space o(n) !!!!!!!!!!!!!
+public class BSTIterator {
+    TreeNode root;
+    Deque<TreeNode> stack;
+    public BSTIterator(TreeNode root) {
+        this.root = root;
+        stack = new ArrayDeque<>();
+        while (root != null) {
+            stack.push(root);
+            root = root.left;
+        }
+    }
+
+    /** @return whether we have a next smallest number */
+    public boolean hasNext() {
+        return !stack.isEmpty();
+    }
+
+    /** @return the next smallest number */
+    public int next() {
+        TreeNode curt = stack.pop();
+        int val = curt.val;
+        if (curt.right != null) {
+            curt = curt.right;
+            while (curt != null) {
+                stack.push(curt);
+                curt = curt.left;
+            }
+        }
+        return val;
+    }
+}
+
+
+//////////////////// inorder Space o(1) !!!!!!!!!!!!!!!!
+public class BSTIterator {
+    TreeNode currentNode;
+    public BSTIterator(TreeNode root) {
+        currentNode = root;
+    }
+
+    /** @return whether we have a next smallest number */
+    public boolean hasNext() {
+        return currentNode != null;
+    }
+
+    /** @return the next smallest number */
+    public int next() {
+        while (currentNode.left != null) {
+            TreeNode prev = currentNode.left;
+            while (prev.right != null && prev.right != currentNode) {
+                prev = prev.right;
+            }
+            if (prev.right == null) {
+                prev.right = currentNode;
+                currentNode = currentNode.left;
+            }
+            else {
+                prev.right = null;
+                break;
+            }
+        }
+        int val = currentNode.val;
+        currentNode = currentNode.right;
+        return val;
+    }
+}
+
+/////////////////// preorder iterator
+public class BSTIterator {
+    Deque<TreeNode> stack;
+    public BSTIterator(TreeNode root) {
+        stack = new ArrayDeque<>();
+        stack.push(root);
+    }
+
+    /** @return whether we have a next smallest number */
+    public boolean hasNext() {
+        return !stack.isEmpty();
+    }
+
+    /** @return the next smallest number */
+    public int next() {
+        
+
+             TreeNode node = stack.pop();           
+
+            if (node.right != null) stack.push(node.right);
+            if (node.left != null) stack.push(node.left);
+
+            return node.val;
+    }
+}
