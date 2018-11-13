@@ -1,3 +1,5 @@
+//  1313   + 121.232
+/// 111.2222  + 112.21
 public String sumtwoDoub(String num1, String num2) {
     num1 += ".0";
     num2 += ".0";
