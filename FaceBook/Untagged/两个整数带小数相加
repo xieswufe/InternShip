@@ -1,0 +1,41 @@
+public String sumtwoDoub(String num1, String num2) {
+    num1 += ".0";
+    num2 += ".0";
+    String[] str1 = num1.split("\\.");
+    String[] str2 = num2.split("\\.");
+    String num1left = str1[0];
+    String num2left = str2[0];
+    String num1right = str1[1];
+    String num2right = str2[1];
+    
+    int carry = 0;
+    int total = 0;
+    // first calculate right part
+    int pos = Math.max(num1right.length(), num2right.length()) - 1;
+    StringBuilder sbright = new StringBuilder();
+    while (pos >= 0) {
+      int val1 = pos >= num1right.length()?0 : num1right.charAt(pos) - '0';
+      int val2 = pos >= num2right.length()? 0 :  num2right.charAt(pos) - '0';
+      sbright.insert(0,(val1 + val2 + carry) % 10);
+      carry = (val1 + val2 + carry) / 10;
+      pos --;
+    }
+    int idx = sbright.length() - 1;
+    while (idx >= 0 && sbright.charAt(idx) == '0') sbright.deleteCharAt(idx--);
+    
+    int pos1 = num1left.length() - 1;
+    int pos2 = num2left.length() - 1;
+    StringBuilder sbleft = new StringBuilder();
+    while (pos1 >= 0 || pos2 >= 0) {
+      int val1 = pos1 >= 0? num1left.charAt(pos1--) - '0' : 0;
+      int val2 = pos2 >= 0 ? num2left.charAt(pos2--) - '0' : 0;
+      sbleft.insert(0,(val1 + val2 + carry) % 10);
+      carry = (val1 + val2 + carry) /10;
+    }
+    if (carry != 0) sbleft.insert(0,carry);
+    idx = 0;
+    while (idx < sbleft.length() -1 && sbleft.charAt(idx) == '0') sbleft.deleteCharAt(idx);
+    System.out.println(sbright.toString());
+    return sbright.length() == 0? sbleft.toString() : sbleft.append('.').append(sbright).toString();
+    
+  }
