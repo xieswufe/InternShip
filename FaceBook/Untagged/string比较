@@ -1,3 +1,5 @@
+//比如 aaaabbbcdaaa and a4b3cd 这种的比较
+
 public boolean compare(String s1, String s2) {
     int pos1 = 0;
     int pos2 = 0;
