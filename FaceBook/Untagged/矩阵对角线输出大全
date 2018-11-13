@@ -1,0 +1,64 @@
+///////////////// 只要副对角线输出
+public void printAntiDiag(int[][] matrix) {
+    if (matrix.length == 0 || matrix[0].length == 0) return;
+    int sum = 0;
+    int row = matrix.length;
+    int col = matrix[0].length;
+    int rowIdx = 0;
+    int colIdx = 0;
+    while (sum < row + col - 1) {
+      System.out.println(matrix[rowIdx++][colIdx--]);
+      if (!isValid(rowIdx,colIdx,row,col)) {
+        sum ++;
+        if (sum < col) {
+          rowIdx = 0;
+          colIdx = sum;
+        }
+        else {
+          colIdx = col - 1;
+          rowIdx = sum - colIdx;
+        }
+      }
+    }
+  }
+  public boolean isValid(int rowIdx, int colIdx, int row, int col) {
+    return rowIdx >= 0 && rowIdx < row && colIdx >= 0 && colIdx < col;
+  }
+  
+  ///////////// 来回输出
+   public int[] findDiagonalOrder(int[][] matrix) {
+        if (matrix.length == 0 || matrix[0].length == 0) return new int[0];
+        int rowLen = matrix.length;
+        int colLen = matrix[0].length;
+        int[] res =  new int[rowLen * colLen];
+        int pos = 0,row = 0,col = 0;
+        boolean flag = true;
+        while (pos < rowLen * colLen) {
+          res[pos++] = matrix[row][col];
+          if (pos == rowLen * colLen) break;
+          if (flag) {
+            if (!isValid(--row,++col,rowLen,colLen)) {
+                row ++;
+                flag = false;
+                while (!isValid(row,col,rowLen,colLen)) {
+                row ++;
+                col --;
+                }
+            }
+          }
+          else {
+          if (!isValid(++row,--col,rowLen,colLen)) {
+                col++;
+                flag = true;
+                while (!isValid(row,col,rowLen,colLen)) {
+                row --;
+                col ++;
+                }
+            }
+          }
+        }
+        return res;
+    }
+    public boolean isValid(int row, int col, int rowLen, int colLen) {
+    return row >= 0 && row < rowLen && col >= 0 && col < colLen;
+    }
