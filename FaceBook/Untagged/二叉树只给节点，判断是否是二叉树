@@ -1,0 +1,49 @@
+public boolean isValid(List<TwoBranchNode> nodes) {
+        int n = nodes.size();
+        int[] degree = new int[n];
+
+        /* get inorder degree for each node*/
+        for (TwoBranchNode node : nodes) {
+            degree[node.left.id]++;
+            degree[node.right.id]++;
+        }
+
+        Queue<TwoBranchNode> queue = new LinkedList<>();
+        Set<TwoBranchNode> visited = new HashSet<>();
+
+        /* find root */
+        for (int i = 0; i < n; i++) {
+
+            /* has degree bigger than one */
+            if (degree > 1)
+                return false;
+
+            if (degree == 0)
+                /* of use hashmap to access */
+                queue.offer(nodes.get(i));
+        }
+
+        /* more then two roots, or has no root */
+        if (queue.size() >= 2 || queue.size() <= 0)
+            return false;
+        
+       /* bfs */
+        while(!queue.isEmpty()) {
+                TwoBranchNode curr = queue.poll();
+
+                /* revisited this node */
+                if (visited.contains(curr.left) || visited.contains(curr.right))
+                    return false;
+
+                if (curr.left != null) {
+                    visited.add(curr.left);
+                    queue.offer(curr.left);
+                }
+                if  (curr.right != null) {
+                    visited.add(curr.right);
+                    queue.offer(curr.right);
+                }
+        }
+
+        return visited.size() == nodes.size() - 1;  // except the root
+    }
