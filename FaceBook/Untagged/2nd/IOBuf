@@ -1,0 +1,48 @@
+新题是
+class IOBuf {
+  char[] data;
+  int length;
+  IOBuf next;
+}
+匹配俩个list的内容是否一样
+比如list: [h,e] -> [l, l, o] -> null 和 [h,e,l] -> [l, o] -> null return true
+注意data可以为null, length可以为0：
+[h,e] -> [l, l, o] -> [] -> [] -> null 和 [h,e,l] -> [l, o] -> null return true
+
+
+
+
+public boolean compare(IOBuf a, IOBuf b) {
+   int posa = -1;
+   int posb = -1;
+   while (true) {
+     chNum curta = getNext(posa,a);
+     chNum curtb = getNext(posb,b);
+     if (curta.pos == -1 && curtb.pos == -1) return true;
+     if (curta.pos == -1 || curtb.pos == -1) return false;
+     if (curta.curt != curtb.curt) return false;
+     posa = curta.pos;
+     posb = curtb.pos;
+     a = curta.buff;
+     b = curtb.buff;
+   }
+ }
+public chNum getNext(int pos, IOBuf buff) {
+   while (buff != null && pos + 1 == buff.length) {
+     pos = -1;
+     buff = buff.next;
+   }
+   if (buff == null) return new chNum(-1,' ',buff);
+   else return new chNum(++pos, buff.data[pos],buff);
+}
+}
+class chNum {
+  int pos;
+  char curt;
+  IOBuf buff;
+  public chNum(int pos, char curt, IOBuf buff) {
+    this.pos = pos;
+    this.curt = curt;
+    this.buff = buff;
+  }
+}
