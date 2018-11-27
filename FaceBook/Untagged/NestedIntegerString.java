@@ -12,10 +12,10 @@ public String helper(List<NestedInteger> nest, int level) {
     else {
         String levelDepth = helper(item.getList(), level + 1);
         if (levelDepth.equals("")) continue;
-      sb.append("+").append(levelDepth);
+        sb.append("+").append(levelDepth);
     }
   }
   sb.deleteCharAt(0);
   if (level == 1) return sb.toString();
   return sb.insert(0,"(").append(")").append("*").append(level).toString();
-} 
+}
